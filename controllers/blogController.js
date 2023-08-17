@@ -5,7 +5,7 @@ import Blog from '../models/blogModel.js';
 // @route   POST /api/blogs/create
 // @access  Public
 const createBlog = asyncHandler(async (req, res) => {
-  const { title, description, image } = req.body;
+  const { title, description, image, category } = req.body;
 
   const blog = await Blog.create({
     title,
@@ -32,6 +32,8 @@ const createBlog = asyncHandler(async (req, res) => {
 // @route   GET /api/blogs
 // @access  Private
 const getBlog = asyncHandler(async (req, res) => {
+
+
   const blog = await Blog.find({});
 
   if (blog) {
