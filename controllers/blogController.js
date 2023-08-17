@@ -34,7 +34,7 @@ const createBlog = asyncHandler(async (req, res) => {
 
 const getBlog = asyncHandler(async (req, res) => {
 
-  const blog = await Blog.find({});
+  const blog = await Blog.find();
 
   if (blog) {
     res.json({
