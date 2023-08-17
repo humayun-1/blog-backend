@@ -19,7 +19,7 @@ const createBlog = asyncHandler(async (req, res) => {
       _id: blog._id,
       title: blog.title,
       description: blog.description,
-      category: blogs.category,
+      category: blog.category,
       image: blog.image
     });
   } else {
