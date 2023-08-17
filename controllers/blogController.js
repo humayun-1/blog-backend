@@ -29,10 +29,10 @@ const createBlog = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get Blog
-// @route   GET /api/blogs
-// @access  Private
-const getBlog = asyncHandler(async (req, res) => {
+// @route   GET /api/blogs/get
+// @access  Public
 
+const getBlog = asyncHandler(async (req, res) => {
 
   const blog = await Blog.find({});
 
