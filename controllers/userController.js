@@ -10,16 +10,18 @@ const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (user && (await user.matchPassword(password))) {
-      res.json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        token: generateToken(user._id),
+      res.status(200).json({
+        data: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+          token: generateToken(user._id),
+        },
+        status: 200
       });
     } else {
-      res.status(401);
-      res.status(401).json(error.message);
+      res.status(401).json({ message: "Email or Password is incorrect", status: 401 });
     }
   } catch (error) {
     res.status(400).json(error.message);
