@@ -5,29 +5,37 @@ import Blog from '../models/blogModel.js';
 // @route   POST /api/blogs/create
 // @access  Public
 const createBlog = asyncHandler(async (req, res) => {
-  const { title, description, image, category } = req.body;
   try {
-    const blog = await Blog.create({
-      title,
-      description,
-      image,
-      category
-    });
-
-    if (blog) {
-      res.status(201).json({
-        _id: blog._id,
-        title: blog.title,
-        description: blog.description,
-        category: blog.category,
-        image: blog.image
-      });
+    const { title, description, image, category } = req.body;
+    if (!title || !description || !image || !category) {
+      res.status(401).json({ message: "Field Missing", status: 401 });
+      return
     } else {
-      res.status(400);
-      throw new Error('Invalid Blog data');
+      const blog = await Blog.create({
+        title,
+        description,
+        image,
+        category
+      });
+
+      if (blog) {
+        res.status(201).json(
+          {
+            data: {
+              _id: blog._id,
+              title: blog.title,
+              description: blog.description,
+              category: blog.category,
+              image: blog.image
+            },
+            status: 201
+          });
+      } else {
+        res.status(401).json({ message: "Something Went Wrong!", status: 401 });
+      }
     }
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(401).json({ message: error.message, status: 401 });
   }
 });
 
@@ -42,14 +50,14 @@ const getBlog = asyncHandler(async (req, res) => {
 
     if (blog) {
       res.json({
-        blog
+        data: blog,
+        status: 201
       });
     } else {
-      res.status(404);
-      throw new Error('User not found');
+      res.status(404).json({ message: "Not Found!", status: 404 });
     }
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(401).json({ message: error.message, status: 401 });
   }
 });
 
