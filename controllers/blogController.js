@@ -6,25 +6,28 @@ import Blog from '../models/blogModel.js';
 // @access  Public
 const createBlog = asyncHandler(async (req, res) => {
   const { title, description, image, category } = req.body;
-
-  const blog = await Blog.create({
-    title,
-    description,
-    image,
-    category
-  });
-
-  if (blog) {
-    res.status(201).json({
-      _id: blog._id,
-      title: blog.title,
-      description: blog.description,
-      category: blog.category,
-      image: blog.image
+  try {
+    const blog = await Blog.create({
+      title,
+      description,
+      image,
+      category
     });
-  } else {
-    res.status(400);
-    throw new Error('Invalid Blog data');
+
+    if (blog) {
+      res.status(201).json({
+        _id: blog._id,
+        title: blog.title,
+        description: blog.description,
+        category: blog.category,
+        image: blog.image
+      });
+    } else {
+      res.status(400);
+      throw new Error('Invalid Blog data');
+    }
+  } catch (error) {
+    res.status(400).json(error.message);
   }
 });
 
@@ -34,15 +37,19 @@ const createBlog = asyncHandler(async (req, res) => {
 
 const getBlog = asyncHandler(async (req, res) => {
 
-  const blog = await Blog.find();
+  try {
+    const blog = await Blog.find();
 
-  if (blog) {
-    res.json({
-      blog
-    });
-  } else {
-    res.status(404);
-    throw new Error('User not found');
+    if (blog) {
+      res.json({
+        blog
+      });
+    } else {
+      res.status(404);
+      throw new Error('User not found');
+    }
+  } catch (error) {
+    res.status(400).json(error.message);
   }
 });
 
