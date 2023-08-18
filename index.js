@@ -4,7 +4,7 @@ import colors from 'colors';
 import morgan from 'morgan';
 import { notFound, errorHandler } from './middlewear/errorMiddlewear.js';
 import connectDB from './config/db.js';
-
+import cors from 'cors'
 import userRoutes from './routes/userRoutes.js';
 import BlogRoutes from './routes/blogRoutes.js';
 
@@ -17,6 +17,7 @@ const app = express();
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+app.use(cors())
 
 app.use(express.json());
 
